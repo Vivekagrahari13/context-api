@@ -1,15 +1,17 @@
 import React from "react";
 import Child from "./Child";
+import { FamilyContext } from "./FamilyContext";
+import { useContext } from "react";
 
-function Parent({ message }) {
-  console.log("Parent received msg in:", { message });
+const Parent = () => {
+  const message = useContext(FamilyContext);
 
   return (
     <div className="parent">
-      <h2>Parent-  {message.familyName}</h2>
-      <Child message={message} />
+      <h2>Parent-{message.familyName}</h2>
+      <Child />
     </div>
   );
-}
+};
 
 export default Parent;

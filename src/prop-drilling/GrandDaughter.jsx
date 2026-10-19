@@ -1,11 +1,11 @@
 import React from 'react'
-
-function GrandDaughter({message}) {
-      console.log("Grand Daughter received msg in:", { message });
-
+import { FamilyContext } from './FamilyContext'
+import { useContext } from 'react'
+function GrandDaughter() {
+    const message=useContext(FamilyContext);
   return (
     <div className='gdaughter'>
-        <h3>GrandDaughter-  {message.familyName}</h3>
+        <h3>GrandDaughter-{message.familyName}</h3>
     </div>
   )
 }

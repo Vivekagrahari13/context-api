@@ -1,18 +1,19 @@
-import React, { useState } from 'react'
-import './App.css'
+import React, { useState } from "react";
+import "./App.css";
 import Family from "./prop-drilling/Family";
+import { FamilyContext } from "./prop-drilling/FamilyContext";
 
 function App() {
-  
-  const familyMessage={
-    familyName:"Gogo"
-
-  }
+  const familyMessage = {
+    familyName: "Gogo",
+  };
   return (
     <>
-    <Family message={familyMessage}/>
+      <FamilyContext.Provider value={familyMessage}>
+        <Family />
+      </FamilyContext.Provider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

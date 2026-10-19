@@ -1,11 +1,10 @@
 import React from 'react'
 import Parent from './Parent'
 
-function Family({message}) {
-    console.log("Fam recived msg in:",{message});
+function Family() {
   return (
     <div className='family'>
-        <Parent message={message}/>
+        <Parent/>
     </div>
   )
 }
