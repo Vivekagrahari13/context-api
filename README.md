@@ -1,16 +1,55 @@
-# React + Vite
+# Context API Practice
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small React + Vite project from the bootcamp to understand **prop drilling** and why the **Context API** exists.
 
-Currently, two official plugins are available:
+## What it shows
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+`App` holds a `message` object (`{ familyName: "Gogo" }`) and passes it down through every level of a component tree, even though only the bottom components display it:
 
-## React Compiler
+```
+App
+ └─ Family
+     └─ Parent
+         └─ Child
+             ├─ GrandDaughter
+             └─ GrandSon
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `Family`, `Parent` and `Child` receive `message` only to pass it on. This is **prop drilling**.
+- `Parent`, `Child`, `GrandDaughter` and `GrandSon` render `message.familyName`.
+- Each component logs when it receives the message, so you can see the data pass through the tree in the console.
 
-## Expanding the ESLint configuration
+## Things learned
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- What prop drilling is and why it gets painful as the tree grows
+- Passing an object as a prop and reading it in child components
+- Default vs named exports and imports
+- Setting up Tailwind CSS in a new Vite project (`tailwindcss`, `@tailwindcss/vite`, plugin in `vite.config.js`, `@import "tailwindcss"` in `index.css`)
+- Logs appear twice in development because `<StrictMode>` renders components twice. This is expected and doesn't happen in production.
+
+## Next
+
+- Replace the prop drilling with the **Context API** (`createContext`, a provider in `App`, and `useContext` in the components that need the data)
+
+## Getting started
+
+```bash
+npm install
+npm run dev
+```
+
+The app runs at `http://localhost:5173`.
+
+## Project structure
+
+```
+src/
+  prop-drilling/
+    Family.jsx
+    Parent.jsx
+    Child.jsx
+    GrandDaughter.jsx
+    GrandSon.jsx
+  App.jsx          # holds the message and renders Family
+  App.css          # box styles for each level
+```
