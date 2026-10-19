@@ -1,13 +1,13 @@
 # Context API Practice
 
-A small React + Vite project from the bootcamp to understand **prop drilling** and why the **Context API** exists.
+A small React + Vite project from the bootcamp to understand **prop drilling** and how the **Context API** solves it.
 
 ## What it shows
 
-`App` holds a `message` object (`{ familyName: "Gogo" }`) and passes it down through every level of a component tree, even though only the bottom components display it:
+`App` holds a `message` object (`{ familyName: "Gogo" }`) and shares it with a component tree where only some components display it:
 
 ```
-App
+App  (Context Provider)
  └─ Family
      └─ Parent
          └─ Child
@@ -15,21 +15,29 @@ App
              └─ GrandSon
 ```
 
-- `Family`, `Parent` and `Child` receive `message` only to pass it on. This is **prop drilling**.
-- `Parent`, `Child`, `GrandDaughter` and `GrandSon` render `message.familyName`.
-- Each component logs when it receives the message, so you can see the data pass through the tree in the console.
+### Before: prop drilling
+
+`message` was passed as a prop through every level, so `Family` and every component in between received it only to pass it on.
+
+### After: Context API
+
+- `FamilyContext.jsx` creates the context with `React.createContext()`.
+- `App.jsx` wraps the tree in `<FamilyContext.Provider value={familyMessage}>`.
+- `Parent`, `Child`, `GrandDaughter` and `GrandSon` read the value directly with `useContext(FamilyContext)`.
+- `Family` no longer takes any props, and nothing is passed between levels.
 
 ## Things learned
 
 - What prop drilling is and why it gets painful as the tree grows
-- Passing an object as a prop and reading it in child components
+- Creating a context, providing a value, and consuming it with `useContext`
+- Components only read the context if they need it, so middle components stay clean
 - Default vs named exports and imports
 - Setting up Tailwind CSS in a new Vite project (`tailwindcss`, `@tailwindcss/vite`, plugin in `vite.config.js`, `@import "tailwindcss"` in `index.css`)
 - Logs appear twice in development because `<StrictMode>` renders components twice. This is expected and doesn't happen in production.
 
 ## Next
 
-- Replace the prop drilling with the **Context API** (`createContext`, a provider in `App`, and `useContext` in the components that need the data)
+- Apply Context to CineScope to share the watchlist state across pages
 
 ## Getting started
 
@@ -45,11 +53,12 @@ The app runs at `http://localhost:5173`.
 ```
 src/
   prop-drilling/
+    FamilyContext.jsx   # createContext
     Family.jsx
     Parent.jsx
     Child.jsx
     GrandDaughter.jsx
     GrandSon.jsx
-  App.jsx          # holds the message and renders Family
-  App.css          # box styles for each level
+  App.jsx               # provides the context value and renders Family
+  App.css               # box styles for each level
 ```
